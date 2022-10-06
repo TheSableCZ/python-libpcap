@@ -205,7 +205,7 @@ cdef class LibPcap(BasePcap):
             if pkt == NULL:
                 break
 
-            yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char *>pkt)[:pkt_header.caplen]
+            yield pkt_header.caplen, (pkt_header.ts.tv_sec + 0.000001 * pkt_header.ts.tv_usec), (<char *>pkt)[:pkt_header.caplen]
 
     def write_path(self, path):
         """
@@ -291,7 +291,7 @@ cdef class Sniff(BasePcap):
                 if count > 0:
                     count -= 1
 
-                yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
+                yield pkt_header.caplen, (pkt_header.ts.tv_sec + 0.000001 * pkt_header.ts.tv_usec), (<char*>pkt)[:pkt_header.caplen]
 
     def stats(self):
         """stats
